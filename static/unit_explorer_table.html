@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>PAU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet" type="text/css" media="screen"></link>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/bridge.js"></script>
+    <script>
+      function Controller($scope) {
+
+        /** Utils: init the scope */
+        $scope.init = function() {
+
+          // Build keys
+          $scope.unit_ids = [];
+          for (var key in $scope.unit_data) {
+            $scope.unit_ids.push(key);
+          }
+
+          // Open explore mode
+          $scope.explores = true;
+          $scope.update_search();
+        }
+
+        /** Filter result set and add results for given key / value */
+        $scope.filter_units = function(key, value) {
+          var re = RegExp(value);
+          for (var i in $scope.unit_ids) {
+            var id = $scope.unit_ids[i];
+            var query = id;
+            if (key != null) {
+              try {
+                query = $scope.unit_data[query][key];
+                if (typeof(query) != "string") 
+                  query = JSON.stringify(query);
+              }
+              catch(e) {
+                // No such key~
+                query = null;
+              }
+            }
+            if ((query != null) && (query.match(re))) {
+              ++$scope.search_results[id];
+            }
+          }
+        };
+
+        /** Live search */
+        $scope.update_search = function() {
+          $scope.reset_search();
+          try {
+            if (($scope.unit_ids == undefined) || ($scope.search == undefined))
+              return;
+
+            // Result search results to zero
+            $scope.search_results = {};
+            for (var i in $scope.unit_ids) {
+              $scope.search_results[$scope.unit_ids[i]] = 0;
+            }
+
+            // Parse and query items
+            var count = 0;
+            var items = $scope.search.split(" ");
+            for (var i in items) {
+              var key = null;
+              var value = items[i];
+              if (value.trim() != "") {
+                if (value.indexOf("=") != -1) {
+                  var item2 = value.split("=");
+                  key = item2[0];
+                  value = item2[1];
+                }
+                try {
+                  $scope.filter_units(key, value);
+                  if (key == null)
+                    $scope.search_keys.push(value)
+                  else {
+                    $scope.search_keys.push(key + " == " + value);
+                    $scope.search_keys_data[key] = true;
+                  }
+                }
+                catch(e) {
+                  if (key == null)
+                    $scope.search_keys.push(value + " [ invalid: " + e.toString() + " ]");
+                  else
+                    $scope.search_keys.push(key + " == " + value + " [ invalid: " + e.toString() + " ]");
+                }
+                count++;
+              }
+            }
+            if (count == 0)
+              count = 1;
+
+            // Generate a final output set based on counters
+            var tmp = $scope.search_results;
+            $scope.total_count = $scope.unit_ids.length;
+            $scope.result_count = 0;
+            $scope.search_results = {};
+            for (var key in tmp) {
+              if (tmp[key] == count) {
+                $scope.search_results[key] = key;
+                ++$scope.result_count;
+              }
+            }
+          }
+          catch(e) {
+            alert("Fail: " + e.toString());
+          }
+        };
+
+        /** Loader */
+        $scope.install_path = trigger("Home.preference", "LOCATION").result;
+        $scope.run = function() {
+          $scope.unit_data = trigger("Units.load")
+          $scope.init();
+          $scope.search = ".*";
+          $scope.update_search();
+        };
+
+        /** Explorer */
+        $scope.reset_search = function() {
+          $scope.search_keys = [];
+          $scope.search_keys_data = {'__id' : true};
+          $scope.search_results = {};
+          $scope.show_details = false;
+        };
+        $scope.reset_search();
+
+        // Debug trigger
+        var debug = false;
+        if (debug) {
+          $scope.unit_data = {
+              "/path/to/some/file/file.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"},
+              "/path/to/some/robot/robot.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"},
+              "/path/to/some/gunship/gunship.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"},
+              "/path/to/some/ninja/ninja.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"},
+              "/path/to/some/artillery/artillery.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"},
+              "/path/to/some/dudes/dudes.json" : { "key1":"value1", "ley2":"value2", "unit_name":"name", "some_other_thing":"Other", "More_fields":"there"}
+          };
+          $scope.init();
+          $scope.search = ".*";
+          $scope.update_search();
+        }
+
+        /** Search kick off */
+        $scope.search_for = function(query) {
+          $scope.search = query;
+          $scope.update_search();
+        };
+        
+        /** Format helper */
+        $scope.resolve_value = function(id, key) {
+          if (key == "__id") 
+            return id;
+          else 
+            return $scope.unit_data[id][key];
+        };
+        $scope.format = function(s) {
+          try {
+            if (typeof(s) != "string") 
+              return JSON.stringify(s, undefined, 2);
+            return s;
+          }
+          catch(e) {
+            alert(e.toString());
+          }
+        };
+      };
+    </script>
+  </head>
+  <body ng-controller="Controller">
+
+    <!-- Common header -->
+    <div></div><script>template("inc/header.html")</script>
+
+    <!-- Page content -->
+    <div class="content">
+
+      <div ng-hide="explores">
+          <h1> Unit explorer </h1>
+          <p>
+              Your current install directory is:<br/>
+              {{install_path}}
+          </p>
+          <p>
+              To recursively process the media directory and load the unit
+              data, use the action button below.
+          </p>
+          <form>
+            <input class="btn" type="button" value="Run" ng-click="run()"/>
+          </form>
+      </div>
+
+      <div ng-show="explores">
+        <h1> Unit explorer </h1>
+        <p>
+          To use the live search bar below, type in various queries to run them
+          over the unit set. Each query is split by a ' ' and you can use regex
+          expressions to partial match items.
+        </p>
+        <p>
+        <b>For example:</b> unit_name=.*ninja.* value=xxx .*ship.*
+      </p>
+      <p>
+        You probably want to go here to figure out an interesting query: <a href="unit_explorer.html">unit explorer</a>, 
+        and then come back to compare the results.
+      </p>
+      <p>
+        <form>
+          <fieldset>
+            <p>
+              <input id="search" style="width: 100% !important;" class="span6" ng-model="search" ng-change="update_search()">
+            </p>
+          </fieldset>
+        </form>
+      </p>
+
+      <h3>Examples</h3>
+      <p> 
+        Some examples (click on link to activate query).
+      </p>
+      <p>
+        <a href="#" ng-click="search_for('unit_types=UNITTYPE_Air build_metal_cost= max_health=')">Air units</a> | 
+        <a href="#" ng-click="search_for('unit_types=UNITTYPE_Fabber unit_name= description= build_metal_cost=')">Fabrication units</a> |
+        <a href="#" ng-click="search_for('recon=.*radius.* unit_name= radar build_metal_cost=')">Radar units</a>
+      </p>
+      <h3>Query</h3>
+      <ul class="search-keys" ng-repeat="r in search_keys" ng-show="search_keys.length > 0">
+        <li>{{r}}</li>
+      </ul>
+      <ul class="search-keys" ng-show="search_keys.length == 0">
+        <li>None</li>
+      </ul>
+
+      <h3>Results</h3>
+      <div class="search-results">
+        <div class="search-count">
+          {{result_count}} / {{total_count}} matches
+        </div>
+        <table class="search-result-item vert">
+          <tr>
+            <th ng-repeat="(key,value) in search_keys_data">
+              {{key}}
+            </tr>
+          </tr>
+          <tr ng-repeat="id in search_results">
+            <td ng-repeat="(key,value) in search_keys_data">
+              {{ resolve_value(id, key) }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common footer -->
+  <div></div><script>template("inc/footer.html")</script>
+
+  </body>
+</html>

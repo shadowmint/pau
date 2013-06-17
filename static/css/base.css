@@ -1,0 +1,141 @@
+/** Common constants */
+/** Common basic theme colors */
+/** Footer specific constants */
+/** Nice light blue */
+/** Macros */
+/** Main content area */
+.content {
+  padding: 10px 10px 10px 20px;
+  margin-right: 350px;
+}
+.content h1 {
+  margin: 0px;
+  padding: 0px;
+  line-height: auto !important;
+  font-size: 25px;
+}
+.content h2 {
+  margin: 0px;
+  padding: 0px;
+  line-height: auto !important;
+  font-size: 20px;
+}
+.content h3 {
+  margin: 0px;
+  padding: 0px;
+  line-height: auto !important;
+  font-size: 18px;
+  margin-top: 10px !important;
+}
+/** Search styles */
+.search-keys {
+  margin: 0px !important;
+}
+.search-keys li {
+  list-style-type: none;
+  padding: 1px 1px 1px 10px;
+  margin-top: 2px;
+  margin-left: 0px;
+  background: #cfcfff;
+  font-size: 0.7em;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -o-border-radius: 3px !important;
+  border-radius: 3px !important;
+}
+.search-results .search-count {
+  padding: 10px 10px 10px 15px;
+  background: #cfcfff;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -o-border-radius: 3px !important;
+  border-radius: 3px !important;
+}
+.search-results .search-result {
+  margin-top: 4px;
+  border: 1px solid #999;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -o-border-radius: 3px !important;
+  border-radius: 3px !important;
+}
+.search-results .search-result .search-item-header {
+  background: #ffefef;
+  padding: 3px 3px 3px 10px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.search-results .search-result-items > table {
+  width: 100%;
+}
+.search-results .search-result-items > table:nth-child(even) {
+  background: #efefff;
+}
+.search-results .search-result-items > table:nth-child(odd) {
+  background: #dfdfff;
+}
+.search-results .vert tr:nth-child(even) {
+  background: #efefff;
+}
+.search-results .vert tr:nth-child(odd) {
+  background: #dfdfff;
+}
+.search-results .vert tr td {
+  padding: 3px 3px 3px 12px;
+}
+.search-results .search-result-item th {
+  text-align: left;
+  background: #dfdfff;
+  padding: 6px 6px 6px 12px;
+}
+.search-results .search-result-item td {
+  background: transparent;
+  vertical-align: top;
+  border: 1px solid #efefef;
+}
+.search-results .search-result-item td pre {
+  font-size: 0.8em;
+  background: none;
+  padding: 0px;
+  margin: 0px;
+  border: 0px !important;
+  height: 50px;
+  overflow: scroll;
+}
+.search-results .search-result-item .key {
+  width: 180px;
+  padding-right: 10px;
+  font-weight: bold;
+  text-align: right;
+}
+/** Header styles */
+/** Common header styles */
+.header {
+  float: right;
+  position: absolute;
+  right: 10px;
+  top: 90px;
+}
+.header button {
+  width: 165px;
+  -webkit-border-radius: 4px !important;
+  -moz-border-radius: 4px !important;
+  -ms-border-radius: 4px !important;
+  -o-border-radius: 4px !important;
+  border-radius: 4px !important;
+}
+/** Banner */
+.banner {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+}
+/** Footer styles */
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+}

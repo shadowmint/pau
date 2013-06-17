@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>PAU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet" type="text/css" media="screen"></link>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/bridge.js"></script>
+    <script>
+      function Controller($scope) {
+
+        /** Install path handlers */
+        $scope.has_setup = trigger("Home.has_setup").result;
+        $scope.install_path = trigger("Home.preference", "LOCATION").result;
+        $scope.choose_install_path = function() {
+          var output = trigger("Setup.choose_install_path");
+          $scope.install_path = output.path;
+        };
+        $scope.save_install_path = function() {
+          trigger("Setup.save_install_path", $scope.install_path);
+          $scope.has_setup = true;
+        }
+      };
+    </script>
+  </head>
+  <body ng-controller="Controller">
+
+    <!-- Common header -->
+    <div></div><script>template("inc/header.html")</script>
+
+    <!-- Page specific styles -->
+    <style>
+      .wide {
+        width: 90% !important;
+      }
+    </style>
+
+    <!-- Page content -->
+    <div class="content">
+      <h1> Setup </h1>
+      <p ng-hide="has_setup">
+        Looks like you haven't configured your Planetary Annihlation source folder
+        path yet. You need to do this now, or nothing else will work.
+      </p>
+
+      <h2> Install path </h2>
+      <p>
+        Pick the path to the planetary annihilation media folder.<br/>
+        eg. C:\Program Files (x86)\Planetary Annihilation\PA\media
+      </p>
+      <p>
+        On a Mac, simply select the "PA" or "Planetary Annihilation" application;
+        we should be able to figure it out from there. Make sure you pick the app
+        itself by right-click and choose 'quick look'.
+      </p>
+      <p>
+        If you can't find your application, try: chflags nohidden ~/Library/
+        ...and look in ~/Library/Application Support/Stea/SteamApps/common/
+      </p>
+      <form>
+        <div class="input-append">
+          <input class="span6" ng-model="install_path" type="text" value="{{install_path}}"/>
+          <input class="btn" type="button" value="pick" ng-click="choose_install_path()"/>
+          <input class="btn" type="button" value="save" ng-click="save_install_path()"/>
+        </div>
+      </form>
+    </div>
+
+    <!-- Common footer -->
+    <div></div><script>template("inc/footer.html")</script>
+
+  </body>
+</html>

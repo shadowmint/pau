@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>PAU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet" type="text/css" media="screen"></link>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/bridge.js"></script>
+    <script>
+      function Controller($scope) {
+        $scope.install_path = trigger("Home.preference", "LOCATION").result;
+        $scope.run = function() {
+          trigger("Utils.reformat")
+        };
+      };
+    </script>
+  </head>
+  <body ng-controller="Controller">
+
+    <!-- Common header -->
+    <div></div><script>template("inc/header.html")</script>
+
+    <!-- Page content -->
+    <div class="content">
+      <h1> Json reformat </h1>
+
+      <p>
+          Your current install directory is:<br/>
+          {{install_path}}
+      </p>
+
+      <p>
+          To recursively process the media directory and apply sorted-key
+          json pretty-formatting, use the action button below.
+      </p>
+
+      <form>
+        <input class="btn" type="button" value="Run" ng-click="run()"/>
+      </form>
+    </div>
+
+    <!-- Common footer -->
+    <div></div><script>template("inc/footer.html")</script>
+
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>PAU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet" type="text/css" media="screen"></link>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"></link>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/bridge.js"></script>
+    <script>
+      function Controller($scope) {
+      }
+    </script>
+  </head>
+  <body ng-controller="Controller">
+
+    <!-- Common header -->
+    <div></div><script>template("inc/header.html")</script>
+
+    <!-- Check the user preferences are set... -->
+    <script>
+      if (!trigger("Home.has_setup").result)
+        document.location = "setup.html";
+    </script>
+
+    <div class="content">
+      <h1>Tools</h1>
+
+      <a href="reformat_json.html"><h2>Json reformat</h2></a>
+      <p>
+        Does some basic reformatting of the json keys on the PA folder.
+      </p>
+
+      <a href="unit_explorer.html"><h2>Unit explorer</h2></a>
+      <p>
+        Loads unit data, searchable data.
+      </p>
+
+      <a href="unit_explorer_table.html"><h2>Unit explorer table</h2></a>
+      <p>
+        Loads unit data, searchable data. Displayed as a vertical table; 
+        good for large screens and comparing units.
+      </p>
+
+    </div>
+
+    <!-- Common footer -->
+    <div></div><script>template("inc/footer.html")</script>
+
+  </body>
+</html>
