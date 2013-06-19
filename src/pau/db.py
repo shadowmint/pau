@@ -39,12 +39,14 @@ class IDb():
 class Db():
 
   def __init__(self):
-    self.config = IConfig
-    self.app = ISession
+    self.config = None
+    self.app = None
     self.engine = None
 
-  def init(self):
+  def init(self, config, session):
     """ Create the local database if required """
+    self.config = config
+    self.session = session
     if self.engine is None:
       assets = self.app.assets
       path = assets.new(self.config.db)

@@ -18,13 +18,13 @@ import pau.model
 import pau
 
 
+@resolve(pau.scope)
 class Utils(object):
   
-  def __init__(self):
-    self.session = pau.ISession
+  def __init__(self, session=pau.ISession):
+    self.session = session
     self.prefs = pau.model.Prefs()
     self.flash = pau.model.Flash()
-    pau.resolve_children(self)
 
   def reformat(self, key, value):
     """ Save the install path preference """
@@ -47,9 +47,7 @@ class JsonReformatJob(nark.process.Worker):
   """ Run the json reformat job and log it """
 
   def context(self):
-    r = pau.create_resolver()
     self.flash = pau.model.Flash()
-    r.resolve(self.flash)
 
   def done(self):
     self.flash.success("Success! All files have been updated.")

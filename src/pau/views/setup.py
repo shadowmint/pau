@@ -17,13 +17,13 @@ import pau.model
 import pau
 
 
+@resolve(pau.scope)
 class Setup(object):
   
-  def __init__(self):
-    self.session = pau.ISession
+  def __init__(self, session=pau.ISession):
+    self.session = session
     self.prefs = pau.model.Prefs()
     self.flash = pau.model.Flash()
-    pau.resolve_children(self)
 
   def save_install_path(self, key, value):
     """ Save the install path preference """

@@ -22,7 +22,6 @@ class Home(object):
   def __init__(self):
     self.prefs = pau.model.Prefs()
     self.flash_service = pau.model.Flash()
-    pau.resolve_children(self)
 
   def sample(self, key, value):
     return {"Result" : value["Hello"] + "World " + key}

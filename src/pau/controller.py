@@ -30,7 +30,6 @@ class Controller(object):
 
   def register(self, cls):
     instance = cls()
-    pau.resolve(instance)
     self.controllers.append(instance)
     t_methods = inspect.getmembers(instance, predicate=lambda x: inspect.isfunction(x) or inspect.ismethod(x))
     for k in t_methods:

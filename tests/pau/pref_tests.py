@@ -28,15 +28,13 @@ class PrefTests(unittest.TestCase):
     """ Setup db and return instance """
 
     # Setup test db
-    self.config = pau.IConfig
-    self.session = pau.ISession
-    pau.resolve(self)
+    print("%r" % pau.scope)
+    self.config = pau.scope.resolve(pau.IConfig)
+    self.session = pau.scope.resolve(pau.ISession)
     self.session.assets = Assets()
     self.config.db = self.db_name
-
-    # Load db for reset later
-    self.db = pau.IDb
-    pau.resolve(self)
+    self.db = pau.scope.resolve(pau.IDb)
+    self.db.init(self.config, self.session)
 
     # Instance
     i = Prefs()

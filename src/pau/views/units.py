@@ -19,13 +19,13 @@ import pau
 from pau.utils.unit_query import load_units
 
 
+@resolve(pau.scope)
 class Units(object):
   
-  def __init__(self):
-    self.session = pau.ISession
+  def __init__(self, session=pau.ISession):
+    self.session = session
     self.prefs = pau.model.Prefs()
     self.flash = pau.model.Flash()
-    pau.resolve_children(self)
 
   def load(self, key, value):
     """ Save the install path preference """

@@ -12,14 +12,14 @@
 # limitations under the License.
 
 from __future__ import absolute_import
-from .pref import *
-from .flash_msg import *
+#from .pref import *
+#from .flash_msg import *
 
 
 __all__ = [
-  'Pref',
-  'Prefs',
-  'Flash',
-  'FlashMsg',
-  'FlashTypes',
+  #'Pref',
+  #'Prefs',
+  #'Flash',
+  #'FlashMsg',
+  #'FlashTypes',
 ]

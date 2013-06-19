@@ -11,21 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import absolute_import
-from nark import *
-from .controller import Controller
-from .config import *
-from .db import *
-from .session import *
-from .consts import *
-from .scope import scope
+import unittest
+import bootstrap
+import pau
+import pau.model
+import pau.utils
+import pau.views
 
 
-__all__ = [
-  'Controller',
-  'IConfig',
-  'IDb',
-  'ISession',
-  'scope',
-  'Preferences',
-]
+class CompileTests(unittest.TestCase):
+  def test_compiles(self):
+    pass
+
+if __name__ == "__main__":
+  unittest.main()

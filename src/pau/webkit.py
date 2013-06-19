@@ -24,18 +24,16 @@ import json
 import sys
 
 
+@resolve(pau.scope)
 class Webkit(object):
   """ A simply wrapper around PyQt to render content in a webkit frame """
 
-  def __init__(self, base, path):
+  def __init__(self, base, path, config=pau.IConfig, session=pau.ISession):
     self.base = base
     self.path = path
-    self.config = IConfig
-    self.session = ISession
+    self.config = config
+    self.session = session
     self.__handlers = {}
-
-    # Resolve own dependencies
-    pau.resolve(self)
     self.assets = self.session.assets
 
   def listen(self, id, callback):

@@ -6,15 +6,14 @@ import pau.views
 from nark import *
 
 
+@resolve(pau.scope)
 class App(object):
 
-  def __init__(self):
+  def __init__(self, config=pau.IConfig, db=pau.IDb, session=pau.ISession):
     
-    self.config = pau.IConfig
-    self.db = pau.IDb
-    self.session = pau.ISession
-
-    pau.resolve(self)
+    self.config = config
+    self.db = db
+    self.session = session
 
     # Setup database
     self.db.init()

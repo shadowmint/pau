@@ -13,7 +13,8 @@
 
 from __future__ import absolute_import
 from .base import Base
-import pau
+from nark import *
+from ..scope import scope
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String
@@ -41,11 +42,12 @@ class Pref(Base):
         return "<Record('%s = %s')>" % (self.key, self.value)
 
 
+@resolve(scope)
 class Prefs(object):
   """ Container for the prefs objects """
 
-  def __init__(self):
-    self.db = pau.IDb
+  def __init__(self, db=pau.IDb):
+    self.db = db
 
   def session(self):
     self.db.init()

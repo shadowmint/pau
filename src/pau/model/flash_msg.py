@@ -13,7 +13,7 @@
 
 from __future__ import absolute_import
 from .base import Base
-from nark import enum, LogManager
+from nark import enum, LogManager, resolve
 import pau
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -49,11 +49,12 @@ class FlashMsg(Base):
         return "<Flash('%s (%s, created on: %s)')>" % (self.message, self.level, self.created_on)
 
 
+@resolve(pau.scope)
 class Flash(object):
   """ Container for the prefs objects """
 
-  def __init__(self):
-    self.db = pau.IDb
+  def __init__(self, db=pau.IDb):
+    self.db = db
 
   def session(self):
     self.db.init()
